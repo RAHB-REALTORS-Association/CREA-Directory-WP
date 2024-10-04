@@ -58,7 +58,7 @@ jobs:
       - name: Prepare release directory
         run: |
           mkdir -p release/bridge-directory
-          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='tests' --exclude='webpack.config.js' --exclude='composer.json' --exclude='composer.lock' --exclude='package.json' --exclude='package-lock.json' --exclude='phpcs.xml' --exclude='README.md' --exclude='.gitignore' --exclude='.gitattributes' bridge-directory/ ./release/bridge-directory
+          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='blocks' --exclude='tests' --exclude='webpack.config.js' --exclude='composer.json' --exclude='composer.lock' --exclude='package.json' --exclude='package-lock.json' --exclude='phpcs.xml' --exclude='README.md' --exclude='.gitignore' --exclude='.gitattributes' bridge-directory/ ./release/bridge-directory
 
       - name: Get version from tag
         id: get_tag

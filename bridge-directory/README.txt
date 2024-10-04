@@ -51,7 +51,7 @@ Displays a comprehensive, searchable directory of office locations using the Bri
 4. **Data Synchronization**:
    – Click the **Full Sync** button to initiate the initial data synchronization.
 5. **Add Office Directory to Pages or Posts**:
-   – In the WordPress block editor, add the **Office List** block to your page or post.
+   – In the WordPress block editor, add the **Bridge Office List** block to your page or post.
 
 == Frequently Asked Questions ==
 
@@ -69,7 +69,7 @@ Currently, the plugin displays predefined fields. Future updates may include cus
 
 = How do I add the office directory to my site? =
 
-You can add the **Office List** block in the WordPress block editor.
+You can add the **Bridge Office List** block in the WordPress block editor.
 
 = What is the Advanced Query Filter? =
 

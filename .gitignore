@@ -48,6 +48,7 @@ wp-config.php
 #/wp-content/themes
 
 composer.lock
+package-lock.json
 vendor
 node_modules
 release

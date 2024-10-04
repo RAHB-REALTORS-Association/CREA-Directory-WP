@@ -10,7 +10,6 @@
 
 - **Settings Sanitization**: Updated the `Settings_Page` class to allow spaces and dashes in the advanced query parameters. Modified the `sanitize_query` method to permit valid special characters, ensuring that user input is not unnecessarily stripped.
 
-
 ## [0.3.2]
 
 ### Fixed
