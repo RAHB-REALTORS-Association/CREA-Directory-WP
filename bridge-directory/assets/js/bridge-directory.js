@@ -88,8 +88,20 @@
                 if (cityStateZip.length > 0) {
                     addressParts.push(cityStateZip.join(" "));
                 }
+
                 if (addressParts.length > 0) {
-                    parts.push(`<p>${addressParts.join("<br>")}</p>`);
+                    // Build the full address for display and for the query
+                    const addressDisplay = addressParts.join("<br>");
+                    const addressForQuery = addressParts.join(", ");
+
+                    // Encode the address for the URL
+                    const addressQuery = encodeURIComponent(addressForQuery);
+
+                    // Build the Google Maps search URL
+                    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${office.OfficeName}+${addressQuery}`;
+
+                    // Add the clickable address to parts
+                    parts.push(`<p><a href="${mapsUrl}" target="_blank">${addressDisplay}</a></p>`);
                 }
 
                 // Handle Social Media Website URL or ID
