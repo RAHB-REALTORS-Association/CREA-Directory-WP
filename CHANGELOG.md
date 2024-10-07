@@ -1,6 +1,12 @@
 ## [0.3.4]
 
+### Added
+
+- **Addresses link to Google Maps**: Added functionality to link office addresses to Google Maps for easy navigation.
+
 ### Cleaned
+
+- **Removed unused files**: Removed unused files and assets from the plugin directory to improve maintainability and reduce clutter.
 
 ## [0.3.3]
 
