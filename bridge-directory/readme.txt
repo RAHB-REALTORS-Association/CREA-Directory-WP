@@ -8,7 +8,7 @@ Stable tag: 0.3.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Displays a comprehensive, searchable directory of office locations using the Bridge Interactive API.
+Displays a comprehensive, searchable directory of office locations using the CREA Board Data API.
 
 == Description ==
 
