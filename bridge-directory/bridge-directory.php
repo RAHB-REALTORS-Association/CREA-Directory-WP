@@ -1,26 +1,26 @@
 <?php
 /**
- * Plugin Name: Bridge Directory
+ * Plugin Name: CREA API
  * Plugin URI: https://github.com/RAHB-REALTORS-Association/Bridge-Directory-WP
  * Description: Displays a searchable directory of offices using the Bridge Interactive API.
  * Version: 0.3.4
  * Author: Cornerstone Association of REALTORS
  * Author URI: https://www.cornerstone.inc
  * License: GPL-2.0
- * Text Domain: bridge-directory
+ * Text Domain: crea-api
  */
  
 defined( 'ABSPATH' ) || exit;
 
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-use BridgeDirectory\AJAX_Handler;
-use BridgeDirectory\API_Client;
-use BridgeDirectory\DB_Handler;
-use BridgeDirectory\Search_Handler;
-use BridgeDirectory\Block_Register;
-use BridgeDirectory\Settings_Page;
-use BridgeDirectory\Data_Sync;
+use CreaAPI\AJAX_Handler;
+use CreaAPI\API_Client;
+use CreaAPI\DB_Handler;
+use CreaAPI\Search_Handler;
+use CreaAPI\Block_Register;
+use CreaAPI\Settings_Page;
+use CreaAPI\Data_Sync;
 
 // Initialize Settings Page
 $settings_page = new Settings_Page();

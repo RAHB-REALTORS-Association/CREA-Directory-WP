@@ -1,36 +1,36 @@
-.bridge-directory-grid {
+.crea-api-grid {
    /* max-width: 1200px; */
     margin: 0 auto;
     padding: 20px;
 }
 
-.bridge-directory-search {
+.crea-api-search {
     margin-bottom: 20px;
 }
 
-.bridge-directory-search input {
+.crea-api-search input {
     width: 100%;
     padding: 10px;
     font-size: 16px;
 }
 
-.bridge-directory-cards {
+.crea-api-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
 }
 
-.bridge-directory-card {
+.crea-api-card {
     border: 1px solid #ccc;
     padding: 15px;
     background-color: #fff;
 }
 
-.bridge-directory-card h3 {
+.crea-api-card h3 {
     margin-top: 0;
 }
 
-.bridge-directory-loader {
+.crea-api-loader {
     text-align: center;
     padding: 20px;
     font-size: 18px;

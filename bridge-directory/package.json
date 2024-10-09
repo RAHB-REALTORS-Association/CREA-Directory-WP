@@ -1,5 +1,5 @@
 {
-    "name": "bridge-directory",
+    "name": "crea-api",
     "version": "0.3.4",
     "description": "A WordPress plugin that displays a searchable directory of offices using the Bridge Interactive API.",
     "main": "index.js",

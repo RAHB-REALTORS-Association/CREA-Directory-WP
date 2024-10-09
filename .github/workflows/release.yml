@@ -26,11 +26,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.composer/cache
-          key: ${{ runner.os }}-composer-${{ hashFiles('bridge-directory/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('crea-api/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install PHP dependencies
-        working-directory: bridge-directory
+        working-directory: crea-api
         run: composer install --no-dev --optimize-autoloader
 
       - name: Set up Node.js
@@ -43,22 +43,22 @@ jobs:
       #  uses: actions/cache@v3
       #  with:
       #    path: ~/.npm
-      #    key: ${{ runner.os }}-node-${{ hashFiles('bridge-directory/package-lock.json') }}
+      #    key: ${{ runner.os }}-node-${{ hashFiles('crea-api/package-lock.json') }}
       #    restore-keys: |
       #      ${{ runner.os }}-node-
 
       - name: Install Node.js dependencies
-        working-directory: bridge-directory
+        working-directory: crea-api
         run: npm install
 
       - name: Build assets
-        working-directory: bridge-directory
+        working-directory: crea-api
         run: npm run build
 
       - name: Prepare release directory
         run: |
-          mkdir -p release/bridge-directory
-          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='blocks' --exclude='tests' --exclude='webpack.config.js' --exclude='composer.json' --exclude='composer.lock' --exclude='package.json' --exclude='package-lock.json' --exclude='phpcs.xml' --exclude='README.md' --exclude='.gitignore' --exclude='.gitattributes' bridge-directory/ ./release/bridge-directory
+          mkdir -p release/crea-api
+          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='blocks' --exclude='tests' --exclude='webpack.config.js' --exclude='composer.json' --exclude='composer.lock' --exclude='package.json' --exclude='package-lock.json' --exclude='phpcs.xml' --exclude='README.md' --exclude='.gitignore' --exclude='.gitattributes' crea-api/ ./release/crea-api
 
       - name: Get version from tag
         id: get_tag
@@ -67,11 +67,11 @@ jobs:
       - name: Archive plugin
         run: |
           cd release
-          zip -r bridge-directory-${{ steps.get_tag.outputs.tag }}.zip bridge-directory
+          zip -r crea-api-${{ steps.get_tag.outputs.tag }}.zip crea-api
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: release/bridge-directory-${{ steps.get_tag.outputs.tag }}.zip
+          files: release/crea-api-${{ steps.get_tag.outputs.tag }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

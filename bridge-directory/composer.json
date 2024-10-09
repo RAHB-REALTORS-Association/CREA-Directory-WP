@@ -1,11 +1,11 @@
 {
-    "name": "justinh-rahb/bridge-directory",
+    "name": "justinh-rahb/crea-api",
     "description": "A WordPress plugin that displays a searchable directory of offices using the Bridge Data Output API.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
-            "BridgeDirectory\\": "includes/"
+            "CreaAPI\\": "includes/"
         }
     },
     "require": {}

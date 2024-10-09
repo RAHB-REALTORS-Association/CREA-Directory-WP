@@ -6,9 +6,9 @@
     let debounceTimeout;
 
     $(document).ready(function () {
-        const $searchInput = $('#bridge-directory-search-input');
-        const $cardsContainer = $('#bridge-directory-cards');
-        const $loader = $('#bridge-directory-loader');
+        const $searchInput = $('#crea-api-search-input');
+        const $cardsContainer = $('#crea-api-cards');
+        const $loader = $('#crea-api-loader');
 
         function loadResults(reset = false) {
             if (isLoading || noMoreResults) return;
@@ -19,7 +19,7 @@
                 url: bridgeDirectory.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'bridge_directory_load_offices',
+                    action: 'crea_api_load_offices',
                     nonce: bridgeDirectory.nonce,
                     page: currentPage,
                     query: lastQuery,
@@ -117,7 +117,7 @@
                 // Handle Office Name
                 const officeName = isValid(office.OfficeName) ? office.OfficeName : "";
                 const card = `
-                    <div class="bridge-directory-card">
+                    <div class="crea-api-card">
                         <h4>${officeName}</h4>
                         ${parts.join('')}
                     </div>

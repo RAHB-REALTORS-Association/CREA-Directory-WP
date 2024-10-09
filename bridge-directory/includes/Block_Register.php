@@ -1,5 +1,5 @@
 <?php
-namespace BridgeDirectory;
+namespace CreaAPI;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,15 +17,15 @@ class Block_Register {
 
     public function register_blocks() {
         wp_register_script(
-            'bridge-directory-block',
+            'crea-api-block',
             plugins_url( 'build/blocks.js', __DIR__ ),
             [ 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components' ],
             '1.0.0',
             true
         );
 
-        register_block_type( 'bridge-directory/office-list', [
-            'editor_script'   => 'bridge-directory-block',
+        register_block_type( 'crea-api/office-list', [
+            'editor_script'   => 'crea-api-block',
             'attributes'      => [
                 'columns'  => [
                     'type'    => 'number',
@@ -37,26 +37,26 @@ class Block_Register {
     }
 
     public function enqueue_scripts() {
-        if ( has_block( 'bridge-directory/office-list' ) ) {
+        if ( has_block( 'crea-api/office-list' ) ) {
             wp_enqueue_script(
-                'bridge-directory-frontend',
-                plugins_url( 'assets/js/bridge-directory.js', __DIR__ ),
+                'crea-api-frontend',
+                plugins_url( 'assets/js/crea-api.js', __DIR__ ),
                 [ 'jquery' ],
                 '1.0.0',
                 true
             );
 
             wp_enqueue_style(
-                'bridge-directory-style',
-                plugins_url( 'assets/css/bridge-directory.css', __DIR__ ),
+                'crea-api-style',
+                plugins_url( 'assets/css/crea-api.css', __DIR__ ),
                 [],
                 '1.0.0'
             );
 
-            wp_localize_script( 'bridge-directory-frontend', 'bridgeDirectory', [
+            wp_localize_script( 'crea-api-frontend', 'bridgeDirectory', [
                 'ajax_url'   => admin_url( 'admin-ajax.php' ),
-                'columns'    => get_option( 'bridge_directory_columns', 3 ),
-                'nonce'      => wp_create_nonce( 'bridge_directory_nonce' ),
+                'columns'    => get_option( 'crea_api_columns', 3 ),
+                'nonce'      => wp_create_nonce( 'crea_api_nonce' ),
             ] );
         }
     }
@@ -64,14 +64,14 @@ class Block_Register {
     public function render_block( $attributes ) {
         ob_start();
         ?>
-        <div class="bridge-directory-grid">
-            <div class="bridge-directory-search">
-                <input type="text" id="bridge-directory-search-input" placeholder="Search...">
+        <div class="crea-api-grid">
+            <div class="crea-api-search">
+                <input type="text" id="crea-api-search-input" placeholder="Search...">
             </div>
-            <div id="bridge-directory-cards" class="bridge-directory-cards">
+            <div id="crea-api-cards" class="crea-api-cards">
                 <!-- Cards will be dynamically added here -->
             </div>
-            <div id="bridge-directory-loader" class="bridge-directory-loader" style="display: none;">
+            <div id="crea-api-loader" class="crea-api-loader" style="display: none;">
                 Loading...
             </div>
         </div>

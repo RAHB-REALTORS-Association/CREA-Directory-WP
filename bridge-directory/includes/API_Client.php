@@ -1,5 +1,5 @@
 <?php
-namespace BridgeDirectory;
+namespace CreaAPI;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -9,9 +9,9 @@ class API_Client {
     private $advanced_query;
 
     public function __construct() {
-        $this->access_token   = get_option( 'bridge_directory_access_token' );
-        $this->dataset_name   = get_option( 'bridge_directory_dataset_name' );
-        $this->advanced_query = get_option( 'bridge_directory_advanced_query', '' );
+        $this->access_token   = get_option( 'crea_api_access_token' );
+        $this->dataset_name   = get_option( 'crea_api_dataset_name' );
+        $this->advanced_query = get_option( 'crea_api_advanced_query', '' );
     }
 
     public function fetch_all_offices() {

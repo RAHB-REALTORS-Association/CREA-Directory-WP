@@ -43,12 +43,12 @@ A WordPress plugin that displays a comprehensive, searchable directory of office
 
 1. **Install Plugin**:
    - **Option A**: Download the latest plugin zip file from the [Releases](https://github.com/RAHB-REALTORS-Association/Bridge-Directory-WP/releases) Page and install it through the WordPress `Plugins -> Add New Plugin` screen directly.
-   - **Option B**: Upload the `bridge-directory` folder from the repository to the `/wp-content/plugins` directory on your WordPress installation, then install the dependencies (see Development Setup below).
+   - **Option B**: Upload the `crea-api` folder from the repository to the `/wp-content/plugins` directory on your WordPress installation, then install the dependencies (see Development Setup below).
 2. **Activate Plugin**: Activate the plugin through the `Plugins -> Installed Plugins` screen in WordPress.
 
 ### Development Setup
 
-If you chose Option B and are setting up the plugin for development purposes, from the `bridge-directory` folder:
+If you chose Option B and are setting up the plugin for development purposes, from the `crea-api` folder:
 
 3. **Install Dependencies**:
    - Run `composer install` to set up autoloading.
@@ -58,7 +58,7 @@ If you chose Option B and are setting up the plugin for development purposes, fr
 ## Usage
 
 1. **Configure Plugin Settings**:
-   - Navigate to `Settings -> Bridge Directory` in the WordPress admin dashboard.
+   - Navigate to `Settings -> CREA API` in the WordPress admin dashboard.
    - **Access Token**: Enter your Bridge Data Output API access token.
    - **Dataset Name**: Specify the dataset name to query (e.g., `itso`).
    - **Sync Interval**: Set how often (in hours) to perform incremental syncs. Default is every 24 hours.

@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v4
 
     #- name: Validate composer.json and composer.lock
-    #  working-directory: bridge-directory
+    #  working-directory: crea-api
     #  run: composer validate --strict
 
     - name: Cache Composer packages
@@ -31,7 +31,7 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      working-directory: bridge-directory
+      working-directory: crea-api
       run: composer install --prefer-dist --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"

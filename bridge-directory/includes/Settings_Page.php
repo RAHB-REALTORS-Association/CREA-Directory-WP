@@ -1,5 +1,5 @@
 <?php
-namespace BridgeDirectory;
+namespace CreaAPI;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -11,10 +11,10 @@ class Settings_Page {
 
     public function register_settings_page() {
         add_options_page(
-            'Bridge Directory Settings',
-            'Bridge Directory',
+            'CREA API Settings',
+            'CREA API',
             'manage_options',
-            'bridge-directory',
+            'crea-api',
             [ $this, 'settings_page_html' ]
         );
     }
@@ -25,15 +25,15 @@ class Settings_Page {
         }
 
         // Process sync and clear cache actions
-        if ( isset( $_POST['bridge_directory_full_sync'] ) ) {
-            check_admin_referer( 'bridge_directory_full_sync' );
+        if ( isset( $_POST['crea_api_full_sync'] ) ) {
+            check_admin_referer( 'crea_api_full_sync' );
             $data_sync = new Data_Sync( new DB_Handler() );
             $data_sync->full_sync();
             echo '<div class="updated"><p>Full sync initiated.</p></div>';
         }
 
-        if ( isset( $_POST['bridge_directory_clear_cache'] ) ) {
-            check_admin_referer( 'bridge_directory_clear_cache' );
+        if ( isset( $_POST['crea_api_clear_cache'] ) ) {
+            check_admin_referer( 'crea_api_clear_cache' );
             $db_handler = new DB_Handler();
             $db_handler->clear_data();
             echo '<div class="updated"><p>Data cleared.</p></div>';
@@ -44,11 +44,11 @@ class Settings_Page {
 
         ?>
         <div class="wrap">
-            <h1>Bridge Directory Settings</h1>
+            <h1>CREA API Settings</h1>
             <form method="post" action="options.php">
                 <?php
-                settings_fields( 'bridge_directory_settings' );
-                do_settings_sections( 'bridge_directory_settings' );
+                settings_fields( 'crea_api_settings' );
+                do_settings_sections( 'crea_api_settings' );
                 submit_button();
                 ?>
             </form>
@@ -56,13 +56,13 @@ class Settings_Page {
             <h2>Data Management</h2>
             <p>Total Records: <?php echo esc_html( $total_records ); ?></p>
             <form method="post">
-                <?php wp_nonce_field( 'bridge_directory_full_sync' ); ?>
-                <input type="hidden" name="bridge_directory_full_sync" value="1">
+                <?php wp_nonce_field( 'crea_api_full_sync' ); ?>
+                <input type="hidden" name="crea_api_full_sync" value="1">
                 <?php submit_button( 'Full Sync', 'primary', 'submit', false ); ?>
             </form>
             <form method="post" style="margin-top: 10px;">
-                <?php wp_nonce_field( 'bridge_directory_clear_cache' ); ?>
-                <input type="hidden" name="bridge_directory_clear_cache" value="1">
+                <?php wp_nonce_field( 'crea_api_clear_cache' ); ?>
+                <input type="hidden" name="crea_api_clear_cache" value="1">
                 <?php submit_button( 'Clear Data', 'secondary', 'submit', false ); ?>
             </form>
         </div>
@@ -70,82 +70,82 @@ class Settings_Page {
     }
 
     public function register_settings() {
-        register_setting( 'bridge_directory_settings', 'bridge_directory_access_token', [
+        register_setting( 'crea_api_settings', 'crea_api_access_token', [
             'sanitize_callback' => [ $this, 'validate_input' ],
         ] );
 
-        register_setting( 'bridge_directory_settings', 'bridge_directory_dataset_name', [
+        register_setting( 'crea_api_settings', 'crea_api_dataset_name', [
             'sanitize_callback' => [ $this, 'validate_input' ],
         ] );
 
-        register_setting( 'bridge_directory_settings', 'bridge_directory_sync_interval', [
+        register_setting( 'crea_api_settings', 'crea_api_sync_interval', [
             'sanitize_callback' => 'absint',
             'default'           => 24,
         ] );
 
-        register_setting( 'bridge_directory_settings', 'bridge_directory_advanced_query', [
+        register_setting( 'crea_api_settings', 'crea_api_advanced_query', [
             'sanitize_callback' => [ $this, 'sanitize_query' ],
             'default'           => '',
         ] );
 
         add_settings_section(
-            'bridge_directory_main',
+            'crea_api_main',
             'API Settings',
             function() { echo '<p>Enter your API settings below:</p>'; },
-            'bridge_directory_settings'
+            'crea_api_settings'
         );
 
         add_settings_field(
-            'bridge_directory_access_token',
+            'crea_api_access_token',
             'Access Token',
             [ $this, 'access_token_field_html' ],
-            'bridge_directory_settings',
-            'bridge_directory_main'
+            'crea_api_settings',
+            'crea_api_main'
         );
 
         add_settings_field(
-            'bridge_directory_dataset_name',
+            'crea_api_dataset_name',
             'Dataset Name',
             [ $this, 'dataset_name_field_html' ],
-            'bridge_directory_settings',
-            'bridge_directory_main'
+            'crea_api_settings',
+            'crea_api_main'
         );
 
         add_settings_field(
-            'bridge_directory_sync_interval',
+            'crea_api_sync_interval',
             'Sync Interval (hours)',
             [ $this, 'sync_interval_field_html' ],
-            'bridge_directory_settings',
-            'bridge_directory_main'
+            'crea_api_settings',
+            'crea_api_main'
         );
 
         add_settings_field(
-            'bridge_directory_advanced_query',
+            'crea_api_advanced_query',
             'Advanced Query Filter',
             [ $this, 'advanced_query_field_html' ],
-            'bridge_directory_settings',
-            'bridge_directory_main'
+            'crea_api_settings',
+            'crea_api_main'
         );
     }
 
     public function access_token_field_html() {
-        $value = get_option( 'bridge_directory_access_token', '' );
-        echo '<input type="text" name="bridge_directory_access_token" value="' . esc_attr( $value ) . '" />';
+        $value = get_option( 'crea_api_access_token', '' );
+        echo '<input type="text" name="crea_api_access_token" value="' . esc_attr( $value ) . '" />';
     }
 
     public function dataset_name_field_html() {
-        $value = get_option( 'bridge_directory_dataset_name', '' );
-        echo '<input type="text" name="bridge_directory_dataset_name" value="' . esc_attr( $value ) . '" />';
+        $value = get_option( 'crea_api_dataset_name', '' );
+        echo '<input type="text" name="crea_api_dataset_name" value="' . esc_attr( $value ) . '" />';
     }
 
     public function sync_interval_field_html() {
-        $value = get_option( 'bridge_directory_sync_interval', 24 );
-        echo '<input type="number" name="bridge_directory_sync_interval" value="' . esc_attr( $value ) . '" min="1" />';
+        $value = get_option( 'crea_api_sync_interval', 24 );
+        echo '<input type="number" name="crea_api_sync_interval" value="' . esc_attr( $value ) . '" min="1" />';
     }
 
     public function advanced_query_field_html() {
-        $value = get_option( 'bridge_directory_advanced_query', '' );
-        echo '<input type="text" name="bridge_directory_advanced_query" value="' . esc_attr( $value ) . '" style="width: 100%;" />';
+        $value = get_option( 'crea_api_advanced_query', '' );
+        echo '<input type="text" name="crea_api_advanced_query" value="' . esc_attr( $value ) . '" style="width: 100%;" />';
         echo '<p class="description">Enter additional query parameters for the API requests. Separate parameters with <code>&</code>. Do not include <code>OfficeStatus</code>. Example: <code>OriginatingSystemName.in=Hamilton&OriginatingSystemName.in=Mississauga</code></p>';
     }
 
