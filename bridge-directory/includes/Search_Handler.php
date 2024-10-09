@@ -1,5 +1,5 @@
 <?php
-namespace BridgeDirectory;
+namespace CreaAPI;
 
 defined( 'ABSPATH' ) || exit;
 

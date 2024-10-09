@@ -1,5 +1,5 @@
 <?php
-namespace BridgeDirectory;
+namespace CreaAPI;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -8,7 +8,7 @@ class DB_Handler {
 
     public function __construct() {
         global $wpdb;
-        $this->table_name = $wpdb->prefix . 'bridge_directory_offices';
+        $this->table_name = $wpdb->prefix . 'crea_api_offices';
     }
 
     public function get_table_name() {
@@ -20,7 +20,7 @@ class DB_Handler {
      */
     public static function activate() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'bridge_directory_offices';
+        $table_name = $wpdb->prefix . 'crea_api_offices';
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE $table_name (
@@ -48,7 +48,7 @@ class DB_Handler {
      */
     public static function deactivate() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'bridge_directory_offices';
+        $table_name = $wpdb->prefix . 'crea_api_offices';
         $table_name_escaped = esc_sql( $table_name );
 
         // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name is safe and escaped.

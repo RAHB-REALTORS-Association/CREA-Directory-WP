@@ -1,4 +1,4 @@
-=== Bridge Directory ===
+=== CREA API ===
 Contributors: justinhrahb
 Tags: real estate, bridge, api, directory, listings
 Requires at least: 6.0
@@ -12,7 +12,7 @@ Displays a comprehensive, searchable directory of office locations using the Bri
 
 == Description ==
 
-**Bridge Directory** is a WordPress plugin that displays a comprehensive, searchable directory of office locations using the [Bridge Interactive API](https://bridgedataoutput.com/docs/explorer/mls-data#listOffices).
+**CREA API** is a WordPress plugin that displays a comprehensive, searchable directory of office locations using the [Bridge Interactive API](https://bridgedataoutput.com/docs/explorer/mls-data#listOffices).
 
 ### Features
 
@@ -39,11 +39,11 @@ Displays a comprehensive, searchable directory of office locations using the Bri
 == Installation ==
 
 1. **Upload the Plugin**:
-   – Upload the `bridge-directory` folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
+   – Upload the `crea-api` folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
 2. **Activate the Plugin**:
    – Activate the plugin through the 'Plugins' screen in WordPress.
 3. **Configure Plugin Settings**:
-   – Navigate to `Settings` -> `Bridge Directory` in the WordPress admin dashboard.
+   – Navigate to `Settings` -> `CREA API` in the WordPress admin dashboard.
    – **Access Token**: Enter your Bridge Data Output API access token.
    – **Dataset Name**: Specify the dataset name to query (e.g., `test`).
    – **Sync Interval**: Set how often (in hours) to perform incremental syncs. Default is every 24 hours.
@@ -86,7 +86,7 @@ The Advanced Query Filter allows you to add custom query parameters to refine th
 * Fixed version numbering to match the actual plugin version.
 
 = 0.3.1 =
-* Updated the plugin name to "Bridge Directory" for consistency.
+* Updated the plugin name to "CREA API" for consistency.
 
 = 0.3.0 =
 * Fixed linting errors for code consistency and maintainability.

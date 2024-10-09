@@ -4,7 +4,7 @@
     var TextControl = components.TextControl;
     var PanelBody = components.PanelBody;
 
-    blocks.registerBlockType( 'bridge-directory/office-list', {
+    blocks.registerBlockType( 'crea-api/office-list', {
         title: 'Bridge Office List',
         icon: 'building',
         category: 'widgets',

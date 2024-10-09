@@ -30,7 +30,7 @@
 
 ### Changed
 
-- **Plugin name**: Updated the plugin name to "Bridge Directory" for consistency and clarity in preparation for submission to the WordPress plugin repository.
+- **Plugin name**: Updated the plugin name to "CREA API" for consistency and clarity in preparation for submission to the WordPress plugin repository.
 
 ## [0.3.0]
 
@@ -172,7 +172,7 @@
 
 ### Added
 
-- **Custom Database Table**: Implemented a custom WordPress database table (`wp_bridge_directory_offices`) to store office records, improving performance and scalability when handling large datasets.
+- **Custom Database Table**: Implemented a custom WordPress database table (`wp_crea_api_offices`) to store office records, improving performance and scalability when handling large datasets.
 
 - **Database Handler Class**: Created `DB_Handler` class to manage CRUD operations on the custom database table, providing efficient data access and manipulation.
 
@@ -206,7 +206,7 @@
 
 - **AJAX Handling**: Created `AJAX_Handler` class to manage AJAX requests for loading offices dynamically without page reloads.
 
-- **Front-End Assets**: Developed new JavaScript and CSS files (`bridge-directory.js` and `bridge-directory.css`) to support the enhanced front-end features.
+- **Front-End Assets**: Developed new JavaScript and CSS files (`crea-api.js` and `crea-api.css`) to support the enhanced front-end features.
 
 ### Changed
 
@@ -262,7 +262,7 @@
 
 - **Settings Page**: Created a settings page to configure the API access token and dataset name required for API requests.
 
-- **Gutenberg Block**: Registered a custom Gutenberg block (`bridge-directory/office-list`) to allow easy insertion of the office list into posts and pages.
+- **Gutenberg Block**: Registered a custom Gutenberg block (`crea-api/office-list`) to allow easy insertion of the office list into posts and pages.
 
 - **Basic Search Functionality**: Enabled simple search capability to filter offices by name, phone number, or email.
 
