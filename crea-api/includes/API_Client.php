@@ -18,27 +18,34 @@ class API_Client {
         $this->office_aor    = get_option('crea_api_office_aor', '');
     }
 
+    /**
+     * Fetch all offices from the API.
+     *
+     * @return array|\WP_Error
+     */
     public function fetch_all_offices() {
         $all_offices = [];
         $skip = 0;
         $top = 1000; // Adjust according to the API limits
+        $has_more_data = true;
 
-        do {
+        while ($has_more_data) {
             $response = $this->fetch_offices([
                 'skip' => $skip,
                 'top'  => $top,
-                // 'officeStatus' => 'Active', // Not needed since default is 'Active'
             ]);
 
             if (is_wp_error($response)) {
                 return $response;
             }
 
-            $offices = $response;
+            // Extract offices and pagination info
+            $offices = $response['data'];
+            $pagination = $response['pagination'];
 
             foreach ($offices as $office) {
-                // Only interested in OfficeType 'Firm'
-                if ($office['OfficeType'] === 'Firm') {
+                // Ensure 'OfficeType' key exists
+                if (isset($office['OfficeType']) && $office['OfficeType'] === 'Firm') {
                     // Extract the website URL
                     $website_url = '';
                     if (!empty($office['OfficeSocialMedia'])) {
@@ -55,36 +62,52 @@ class API_Client {
 
                     // Use 'OfficeNationalAssociationId' as the key
                     $all_offices[$office['OfficeNationalAssociationId']] = $office;
+                } else {
+                    // Handle missing or different 'OfficeType'
+                    error_log('Skipping office without OfficeType "Firm": ' . print_r($office, true));
                 }
             }
 
-            $skip += $top;
-        } while (count($offices) === $top);
+            // Update the skip value based on the number of records retrieved
+            $skip += count($offices);
+
+            // Check if there is more data to fetch
+            if (count($offices) < $top) {
+                $has_more_data = false;
+            }
+        }
 
         return $all_offices;
     }
 
+    /**
+     * Fetch updated offices from the API since a given timestamp.
+     *
+     * @param string $since
+     * @return array|\WP_Error
+     */
     public function fetch_updated_offices($since) {
         $updated_offices = [];
         $skip = 0;
-        $top = 1000; // Adjust according to the API limits
+        $top = 1000;
+        $has_more_data = true;
 
-        do {
+        while ($has_more_data) {
             $response = $this->fetch_offices([
                 'skip'                 => $skip,
                 'top'                  => $top,
                 'modificationTimestamp' => $since,
-                // 'officeStatus' => 'Active', // Not needed since default is 'Active'
             ]);
 
             if (is_wp_error($response)) {
                 return $response;
             }
 
-            $offices = $response;
+            $offices = $response['data'];
+            $pagination = $response['pagination'];
 
             foreach ($offices as $office) {
-                if ($office['OfficeType'] === 'Firm') {
+                if (isset($office['OfficeType']) && $office['OfficeType'] === 'Firm') {
                     // Extract the website URL
                     $website_url = '';
                     if (!empty($office['OfficeSocialMedia'])) {
@@ -100,21 +123,36 @@ class API_Client {
                     $office['SocialMediaWebsiteUrlOrId'] = $website_url;
 
                     $updated_offices[$office['OfficeNationalAssociationId']] = $office;
+                } else {
+                    error_log('Skipping office without OfficeType "Firm": ' . print_r($office, true));
                 }
             }
 
-            $skip += $top;
-        } while (count($offices) === $top);
+            // Update skip value
+            $skip += count($offices);
+
+            // Check if there is more data
+            if (count($offices) < $top) {
+                $has_more_data = false;
+            }
+        }
 
         return $updated_offices;
     }
 
+    /**
+     * Fetch inactive offices from the API since a given timestamp.
+     *
+     * @param string $since
+     * @return array|\WP_Error
+     */
     public function fetch_inactive_offices($since) {
         $inactive_offices = [];
         $skip = 0;
-        $top = 1000; // Adjust according to the API limits
+        $top = 1000;
+        $has_more_data = true;
 
-        do {
+        while ($has_more_data) {
             $response = $this->fetch_offices([
                 'skip'                 => $skip,
                 'top'                  => $top,
@@ -126,18 +164,31 @@ class API_Client {
                 return $response;
             }
 
-            $offices = $response;
+            $offices = $response['data'];
+            $pagination = $response['pagination'];
 
             foreach ($offices as $office) {
                 $inactive_offices[] = $office['OfficeNationalAssociationId'];
             }
 
-            $skip += $top;
-        } while (count($offices) === $top);
+            // Update skip value
+            $skip += count($offices);
+
+            // Check if there is more data
+            if (count($offices) < $top) {
+                $has_more_data = false;
+            }
+        }
 
         return $inactive_offices;
     }
 
+    /**
+     * Fetch offices from the API with optional parameters.
+     *
+     * @param array $args
+     * @return array|\WP_Error
+     */
     private function fetch_offices($args = []) {
         $access_token = $this->token_manager->refreshTokenIfNeeded();
         if (!$access_token) {
@@ -148,6 +199,7 @@ class API_Client {
         $headers = [
             'Authorization' => 'Bearer ' . $access_token,
             'Content-Type'  => 'application/json',
+            'Accept'        => 'application/json',
         ];
 
         // Build the query parameters
@@ -188,6 +240,7 @@ class API_Client {
         ]);
 
         if (is_wp_error($response)) {
+            error_log('WP_Error during API request: ' . $response->get_error_message());
             return $response;
         }
 
@@ -195,9 +248,15 @@ class API_Client {
         $data = json_decode($body, true);
 
         if (wp_remote_retrieve_response_code($response) == 200) {
-            return $data;
+            if (isset($data['data'])) {
+                return $data;
+            } else {
+                error_log('Unexpected API response structure: ' . print_r($data, true));
+                return new \WP_Error('api_error', 'Unexpected API response structure.', ['response' => $data]);
+            }
         } else {
-            return new \WP_Error('api_error', 'Failed to fetch data from the API.', ['response' => $response]);
+            error_log('API Error: ' . wp_remote_retrieve_response_code($response) . ' - ' . print_r($data, true));
+            return new \WP_Error('api_error', 'Failed to fetch data from the API.', ['response' => $data]);
         }
     }
 }

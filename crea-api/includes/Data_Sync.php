@@ -36,6 +36,9 @@ class Data_Sync {
      * Activation Hook: Schedule the Incremental Sync Cron Event
      */
     public function activate_plugin() {
+        // Ensure this method calls the DB_Handler::activate() method
+        DB_Handler::activate();
+
         $this->add_custom_cron_schedule(wp_get_schedules());
         $this->schedule_incremental_sync();
         $this->full_sync();
