@@ -11,8 +11,8 @@ class Settings_Page {
 
     public function register_settings_page() {
         add_options_page(
-            'Crea API Settings',
-            'Crea API',
+            'CREA API Settings',
+            'CREA API',
             'manage_options',
             'crea-api',
             [$this, 'settings_page_html']
