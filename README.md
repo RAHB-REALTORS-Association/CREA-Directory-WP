@@ -42,7 +42,7 @@ A WordPress plugin that displays a comprehensive, searchable directory of office
 ## Installation
 
 1. **Install Plugin**:
-   - **Option A**: Download the latest plugin zip file from the [Releases](https://github.com/RAHB-REALTORS-Association/CREA-API-WP/releases) Page and install it through the WordPress `Plugins -> Add New Plugin` screen directly.
+   - **Option A**: Download the latest plugin zip file from the [Releases](https://github.com/RAHB-REALTORS-Association/CREA-Directory-WP/releases) Page and install it through the WordPress `Plugins -> Add New Plugin` screen directly.
    - **Option B**: Upload the `crea-api` folder from the repository to the `/wp-content/plugins` directory on your WordPress installation, then install the dependencies (see Development Setup below).
 2. **Activate Plugin**: Activate the plugin through the `Plugins -> Installed Plugins` screen in WordPress.
 
