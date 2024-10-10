@@ -50,7 +50,7 @@
                         } )
                     )
                 ),
-                el( 'div', { className: props.className }, 'Bridge Office List Block' )
+                el( 'div', { className: props.className }, 'CREA Office List Block' )
             ];
         },
         save: function () {
