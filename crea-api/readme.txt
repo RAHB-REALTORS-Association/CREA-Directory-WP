@@ -4,7 +4,7 @@ Tags: real estate, api, directory, listings
 Requires at least: 6.0
 Tested up to: 6.6.2
 Requires PHP: 8.0
-Stable tag: 0.1.0
+Stable tag: 0.3.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,7 +76,7 @@ The OfficeAOR Filter allows you to filter the data fetched from the API by board
 
 == Changelog ==
 
-= 0.1.0 =
+= 0.3.4 =
 * Initial version of fork from Bridge Directory plugin.
 
 == License ==
