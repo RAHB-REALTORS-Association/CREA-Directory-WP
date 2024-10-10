@@ -16,11 +16,11 @@
             $loader.show();
 
             $.ajax({
-                url: bridgeDirectory.ajax_url,
+                url: creaDirectory.ajax_url,
                 type: 'POST',
                 data: {
                     action: 'crea_api_load_offices',
-                    nonce: bridgeDirectory.nonce,
+                    nonce: creaDirectory.nonce,
                     page: currentPage,
                     query: lastQuery,
                 },

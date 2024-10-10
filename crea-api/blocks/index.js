@@ -5,7 +5,7 @@
     var PanelBody = components.PanelBody;
 
     blocks.registerBlockType( 'crea-api/office-list', {
-        title: 'Bridge Office List',
+        title: 'CREA Office List',
         icon: 'building',
         category: 'widgets',
         attributes: {

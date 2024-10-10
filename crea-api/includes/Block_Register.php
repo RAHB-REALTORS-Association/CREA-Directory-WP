@@ -53,7 +53,7 @@ class Block_Register {
                 '1.0.0'
             );
 
-            wp_localize_script( 'crea-api-frontend', 'bridgeDirectory', [
+            wp_localize_script( 'crea-api-frontend', 'creaDirectory', [
                 'ajax_url'   => admin_url( 'admin-ajax.php' ),
                 'columns'    => get_option( 'crea_api_columns', 3 ),
                 'nonce'      => wp_create_nonce( 'crea_api_nonce' ),
