@@ -1,6 +1,6 @@
 === CREA API ===
 Contributors: justinhrahb
-Tags: real estate, bridge, api, directory, listings
+Tags: real estate, api, directory, listings
 Requires at least: 6.0
 Tested up to: 6.6.2
 Requires PHP: 8.0
@@ -12,14 +12,14 @@ Displays a comprehensive, searchable directory of office locations using the CRE
 
 == Description ==
 
-**CREA API** is a WordPress plugin that displays a comprehensive, searchable directory of office locations using the [Bridge Interactive API](https://bridgedataoutput.com/docs/explorer/mls-data#listOffices).
+**CREA API** is a WordPress plugin that displays a comprehensive, searchable directory of office locations using the [CREA Board Data API](https://boardapi-docs.realtor.ca/#tag/Office/paths/~1Office/get).
 
 ### Features
 
 – **Responsive Office Directory**: Displays offices in a grid of interactive cards, showing essential information such as name, address, phone, email, and website.
 – **Advanced Search**: Users can search for offices by name, address, phone number, or email with instant feedback thanks to client-side filtering and debounce optimization.
 – **Infinite Scroll**: Offices are loaded automatically as users scroll, enhancing the user experience without traditional pagination.
-– **Automated Data Sync**: Full and incremental synchronization with the [Bridge Interactive API](https://bridgedataoutput.com/docs/explorer/mls-data#listOffices) to keep office data current, including handling of inactive records.
+– **Automated Data Sync**: Full and incremental synchronization with the [CREA Board Data API](https://boardapi-docs.realtor.ca/#tag/Office/paths/~1Office/get) to keep office data current, including handling of inactive records.
 – **Custom Database Storage**: Utilizes a custom WordPress database table for efficient storage and retrieval, optimized for large datasets.
 – **User-Friendly Admin Interface**: Intuitive settings page for configuring API access, synchronization intervals, and managing data directly from the WordPress admin dashboard.
 
@@ -44,14 +44,13 @@ Displays a comprehensive, searchable directory of office locations using the CRE
    – Activate the plugin through the 'Plugins' screen in WordPress.
 3. **Configure Plugin Settings**:
    – Navigate to `Settings` -> `CREA API` in the WordPress admin dashboard.
-   – **Access Token**: Enter your Bridge Data Output API access token.
-   – **Dataset Name**: Specify the dataset name to query (e.g., `test`).
+   – **Client ID and Secret**: Enter your CREA Board Data API access credentials.
    – **Sync Interval**: Set how often (in hours) to perform incremental syncs. Default is every 24 hours.
-   – **Advanced Query Filter**: (Optional) Add additional query parameters for API requests. Do not include `OfficeStatus` or `ModificationTimestamp.gt` in this field.
+   – **OfficeAOR Filter**: (Optional) Add a board name filter for API requests.
 4. **Data Synchronization**:
    – Click the **Full Sync** button to initiate the initial data synchronization.
 5. **Add Office Directory to Pages or Posts**:
-   – In the WordPress block editor, add the **Bridge Office List** block to your page or post.
+   – In the WordPress block editor, add the **CREA Office List** block to your page or post.
 
 == Frequently Asked Questions ==
 
@@ -71,25 +70,14 @@ Currently, the plugin displays predefined fields. Future updates may include cus
 
 You can add the **Bridge Office List** block in the WordPress block editor.
 
-= What is the Advanced Query Filter? =
+= What is the OfficeAOR Filter? =
 
-The Advanced Query Filter allows you to add custom query parameters to refine the data fetched from the API. Do not include `OfficeStatus` or `ModificationTimestamp.gt` in this field.
+The OfficeAOR Filter allows you to filter the data fetched from the API by board name. This is an optional setting.
 
 == Changelog ==
 
-= 0.3.3 =
-* Updated `readme.txt` to comply with WordPress Plugin Directory requirements.
-* Fixed URL encoding in API requests to handle spaces and dashes in advanced query parameters.
-* Improved settings sanitization to allow valid special characters in advanced queries.
-
-= 0.3.2 =
-* Fixed version numbering to match the actual plugin version.
-
-= 0.3.1 =
-* Updated the plugin name to "CREA API" for consistency.
-
-= 0.3.0 =
-* Fixed linting errors for code consistency and maintainability.
+= 0.1.0 =
+* Initial version of fork from Bridge Directory plugin.
 
 == License ==
 
@@ -97,4 +85,4 @@ This plugin is licensed under the GPLv2 or later.
 
 == Additional Notes ==
 
-For support and additional information, please visit the [GitHub repo](https://github.com/RAHB-REALTORS-Association/Bridge-Directory-WP).
+For support and additional information, please visit the [GitHub repo](https://github.com/RAHB-REALTORS-Association/CREA-API-WP).
