@@ -1,187 +1,203 @@
 <?php
 namespace CreaAPI;
 
-defined( 'ABSPATH' ) || exit;
+use CreaAPI\Token_Manager;
+
+defined('ABSPATH') || exit;
 
 class API_Client {
-    private $access_token;
-    private $dataset_name;
-    private $advanced_query;
+    private $client_id;
+    private $client_secret;
+    private $token_manager;
+    private $office_aor;
 
     public function __construct() {
-        $this->access_token   = get_option( 'crea_api_access_token' );
-        $this->dataset_name   = get_option( 'crea_api_dataset_name' );
-        $this->advanced_query = get_option( 'crea_api_advanced_query', '' );
+        $this->client_id     = get_option('crea_api_client_id');
+        $this->client_secret = get_option('crea_api_client_secret');
+        $this->token_manager = new Token_Manager($this->client_id, $this->client_secret);
+        $this->office_aor    = get_option('crea_api_office_aor', '');
     }
 
     public function fetch_all_offices() {
         $all_offices = [];
-        $offset = 0;
-        $limit = 200;
-        $fields = implode( ',', [
-            'OfficeKey',
-            'OfficeName',
-            'OfficeAddress1',
-            'OfficeAddress2',
-            'OfficeCity',
-            'OfficeStateOrProvince',
-            'OfficePostalCode',
-            'OfficePhone',
-            'OfficeFax',
-            'OfficeEmail',
-            'SocialMediaWebsiteUrlOrId',
-        ] );
+        $skip = 0;
+        $top = 1000; // Adjust according to the API limits
 
         do {
-            $response = $this->fetch_offices( [
-                'OfficeStatus' => 'Active',
-                'fields'       => $fields,
-                'limit'        => $limit,
-                'offset'       => $offset,
-            ] );
+            $response = $this->fetch_offices([
+                'skip' => $skip,
+                'top'  => $top,
+                // 'officeStatus' => 'Active', // Not needed since default is 'Active'
+            ]);
 
-            if ( is_wp_error( $response ) ) {
+            if (is_wp_error($response)) {
                 return $response;
             }
 
             $offices = $response;
-            foreach ( $offices as $office ) {
-                $all_offices[ $office['OfficeKey'] ] = $office;
+
+            foreach ($offices as $office) {
+                // Only interested in OfficeType 'Firm'
+                if ($office['OfficeType'] === 'Firm') {
+                    // Extract the website URL
+                    $website_url = '';
+                    if (!empty($office['OfficeSocialMedia'])) {
+                        foreach ($office['OfficeSocialMedia'] as $social_media) {
+                            if ($social_media['SocialMediaType'] === 'Website') {
+                                $website_url = $social_media['SocialMediaUrlOrId'];
+                                break; // Stop after finding the website URL
+                            }
+                        }
+                    }
+
+                    // Add the website URL to the office data
+                    $office['SocialMediaWebsiteUrlOrId'] = $website_url;
+
+                    // Use 'OfficeNationalAssociationId' as the key
+                    $all_offices[$office['OfficeNationalAssociationId']] = $office;
+                }
             }
-            $offset += $limit;
-        } while ( count( $offices ) === $limit );
+
+            $skip += $top;
+        } while (count($offices) === $top);
 
         return $all_offices;
     }
 
-    public function fetch_updated_offices( $since ) {
+    public function fetch_updated_offices($since) {
         $updated_offices = [];
-        $offset = 0;
-        $limit = 200;
-        $fields = implode( ',', [
-            'OfficeKey',
-            'OfficeName',
-            'OfficeAddress1',
-            'OfficeAddress2',
-            'OfficeCity',
-            'OfficeStateOrProvince',
-            'OfficePostalCode',
-            'OfficePhone',
-            'OfficeFax',
-            'OfficeEmail',
-            'SocialMediaWebsiteUrlOrId',
-        ] );
+        $skip = 0;
+        $top = 1000; // Adjust according to the API limits
 
         do {
-            $response = $this->fetch_offices( [
-                'OfficeStatus'             => 'Active',
-                'ModificationTimestamp.gt' => $since,
-                'fields'                   => $fields,
-                'limit'                    => $limit,
-                'offset'                   => $offset,
-            ] );
+            $response = $this->fetch_offices([
+                'skip'                 => $skip,
+                'top'                  => $top,
+                'modificationTimestamp' => $since,
+                // 'officeStatus' => 'Active', // Not needed since default is 'Active'
+            ]);
 
-            if ( is_wp_error( $response ) ) {
+            if (is_wp_error($response)) {
                 return $response;
             }
 
             $offices = $response;
-            foreach ( $offices as $office ) {
-                $updated_offices[ $office['OfficeKey'] ] = $office;
+
+            foreach ($offices as $office) {
+                if ($office['OfficeType'] === 'Firm') {
+                    // Extract the website URL
+                    $website_url = '';
+                    if (!empty($office['OfficeSocialMedia'])) {
+                        foreach ($office['OfficeSocialMedia'] as $social_media) {
+                            if ($social_media['SocialMediaType'] === 'Website') {
+                                $website_url = $social_media['SocialMediaUrlOrId'];
+                                break;
+                            }
+                        }
+                    }
+
+                    // Add the website URL to the office data
+                    $office['SocialMediaWebsiteUrlOrId'] = $website_url;
+
+                    $updated_offices[$office['OfficeNationalAssociationId']] = $office;
+                }
             }
-            $offset += $limit;
-        } while ( count( $offices ) === $limit );
+
+            $skip += $top;
+        } while (count($offices) === $top);
 
         return $updated_offices;
     }
 
-    public function fetch_inactive_offices( $since ) {
+    public function fetch_inactive_offices($since) {
         $inactive_offices = [];
-        $offset = 0;
-        $limit = 200;
+        $skip = 0;
+        $top = 1000; // Adjust according to the API limits
 
         do {
-            $response = $this->fetch_offices( [
-                'OfficeStatus'             => 'Inactive',
-                'ModificationTimestamp.gt' => $since,
-                'fields'                   => 'OfficeKey',
-                'limit'                    => $limit,
-                'offset'                   => $offset,
-            ] );
+            $response = $this->fetch_offices([
+                'skip'                 => $skip,
+                'top'                  => $top,
+                'modificationTimestamp' => $since,
+                'officeStatus'          => 'Inactive', // Override the default 'Active' status
+            ]);
 
-            if ( is_wp_error( $response ) ) {
+            if (is_wp_error($response)) {
                 return $response;
             }
 
             $offices = $response;
-            foreach ( $offices as $office ) {
-                $inactive_offices[] = $office['OfficeKey'];
+
+            foreach ($offices as $office) {
+                $inactive_offices[] = $office['OfficeNationalAssociationId'];
             }
-            $offset += $limit;
-        } while ( count( $offices ) === $limit );
+
+            $skip += $top;
+        } while (count($offices) === $top);
 
         return $inactive_offices;
     }
 
-    private function fetch_offices( $args = [] ) {
-        if ( empty( $this->access_token ) || empty( $this->dataset_name ) ) {
-            return new \WP_Error( 'missing_credentials', 'API credentials are missing.' );
+    private function fetch_offices($args = []) {
+        $access_token = $this->token_manager->refreshTokenIfNeeded();
+        if (!$access_token) {
+            return new \WP_Error('token_error', 'Unable to obtain access token.');
         }
 
-        $args['access_token'] = $this->access_token;
+        // Build headers with the access token
+        $headers = [
+            'Authorization' => 'Bearer ' . $access_token,
+            'Content-Type'  => 'application/json',
+        ];
 
-        // Build base query string from $args
-        $base_query_string = http_build_query( $args, '', '&', PHP_QUERY_RFC3986 );
+        // Build the query parameters
+        $query_params = [];
 
-        // Process advanced query string
-        $advanced_query_string = $this->advanced_query;
-        if ( ! empty( $advanced_query_string ) ) {
-            // Remove OfficeStatus and ModificationTimestamp.gt from advanced query string
-            $params_to_remove = ['OfficeStatus', 'ModificationTimestamp.gt'];
-
-            // Split advanced query string into parameters
-            $pairs = explode('&', $advanced_query_string);
-            $filtered_pairs = [];
-            foreach ( $pairs as $pair ) {
-                $pair = trim($pair);
-                if ( $pair === '' ) continue;
-                $kv = explode('=', $pair, 2);
-                $key = urldecode($kv[0]);
-                if ( in_array( $key, $params_to_remove ) ) continue;
-                $value = isset($kv[1]) ? str_replace(' ', '+', urldecode($kv[1])) : '';
-                $filtered_pairs[] = urlencode($key) . '=' . urlencode($value);
-            }
-            // Rebuild advanced query string
-            $advanced_query_string = implode('&', $filtered_pairs);
+        if (isset($args['skip'])) {
+            $query_params['skip'] = $args['skip'];
         }
 
-        // Combine base query string and advanced query string
-        if ( ! empty( $advanced_query_string ) ) {
-            $query_string = $base_query_string . '&' . $advanced_query_string;
-        } else {
-            $query_string = $base_query_string;
+        if (isset($args['top'])) {
+            $query_params['top'] = $args['top'];
         }
 
-        $url = sprintf(
-            'https://api.bridgedataoutput.com/api/v2/%s/offices',
-            $this->dataset_name
-        );
+        if (isset($args['modificationTimestamp'])) {
+            $query_params['modificationTimestamp'] = $args['modificationTimestamp'];
+        }
 
-        $full_url = $url . '?' . $query_string;
+        // Include OfficeAOR if it's set
+        if (!empty($this->office_aor)) {
+            $query_params['officeAOR'] = $this->office_aor;
+        }
 
-        $response = wp_remote_get( $full_url );
+        // Include OfficeStatus, defaulting to 'Active'
+        $query_params['officeStatus'] = isset($args['officeStatus']) ? $args['officeStatus'] : 'Active';
 
-        if ( is_wp_error( $response ) ) {
+        // Build the query string
+        $query_string = http_build_query($query_params);
+
+        $url = 'https://api.crea.ca/office'; // Adjust to the correct endpoint
+
+        if ($query_string) {
+            $url .= '?' . $query_string;
+        }
+
+        $response = wp_remote_get($url, [
+            'headers' => $headers,
+            'timeout' => 30,
+        ]);
+
+        if (is_wp_error($response)) {
             return $response;
         }
 
-        $body = wp_remote_retrieve_body( $response );
-        $data = json_decode( $body, true );
+        $body = wp_remote_retrieve_body($response);
+        $data = json_decode($body, true);
 
-        if ( isset( $data['success'] ) && $data['success'] ) {
-            return $data['bundle'];
+        if (wp_remote_retrieve_response_code($response) == 200) {
+            return $data;
+        } else {
+            return new \WP_Error('api_error', 'Failed to fetch data from the API.', ['response' => $response]);
         }
-
-        return new \WP_Error( 'api_error', 'Failed to fetch data from the API.' );
     }
 }
