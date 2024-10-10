@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 use CreaAPI\AJAX_Handler;
+use CreaAPI\Token_Manager;
 use CreaAPI\API_Client;
 use CreaAPI\DB_Handler;
 use CreaAPI\Search_Handler;
