@@ -1,11 +1,11 @@
-# Bridge Interactive API Directory for WordPress
+# CREA Board Data API Directory for WordPress
 
 [![License](https://img.shields.io/badge/license-GPLv2-green.svg)](LICENSE)
 
 > [!IMPORTANT]
-> This project is not affiliated with Bridge Interactive or Zillow. Please do not contact them for support related to issues with this plugin.
+> This project is not affiliated with CREA. Please do not contact them for support related to issues with this plugin.
 
-A WordPress plugin that displays a comprehensive, searchable directory of office locations using the [Bridge Interactive API](https://bridgedataoutput.com/docs/explorer/mls-data#listOffices).
+A WordPress plugin that displays a comprehensive, searchable directory of office locations using the [CREA Board Data API](https://boardapi-docs.realtor.ca/#tag/Office/paths/~1Office/get).
 
 ## Table of Contents
 
@@ -22,7 +22,7 @@ A WordPress plugin that displays a comprehensive, searchable directory of office
 - **Responsive Office Directory**: Displays offices in a grid of interactive cards, each showing essential information such as name, address, phone, email, and website.
 - **Advanced Search**: Users can search for offices by name, address, phone number, or email with instant feedback thanks to client-side filtering and debounce optimization.
 - **Infinite Scroll**: Offices are loaded automatically as users scroll, enhancing the user experience without traditional pagination.
-- **Automated Data Sync**: Full and incremental synchronization with the [Bridge Interactive API](https://bridgedataoutput.com/docs/explorer/mls-data#listOffices) to keep office data current, including handling of inactive records.
+- **Automated Data Sync**: Full and incremental synchronization with the [CREA Board Data API](https://boardapi-docs.realtor.ca/#tag/Office/paths/~1Office/get) to keep office data current, including handling of inactive records.
 - **Custom Database Storage**: Utilizes a custom WordPress database table for efficient storage and retrieval, optimized for large datasets.
 - **User-Friendly Admin Interface**: Intuitive settings page for configuring API access, synchronization intervals, and managing data directly from the WordPress admin dashboard.
 
@@ -42,7 +42,7 @@ A WordPress plugin that displays a comprehensive, searchable directory of office
 ## Installation
 
 1. **Install Plugin**:
-   - **Option A**: Download the latest plugin zip file from the [Releases](https://github.com/RAHB-REALTORS-Association/Bridge-Directory-WP/releases) Page and install it through the WordPress `Plugins -> Add New Plugin` screen directly.
+   - **Option A**: Download the latest plugin zip file from the [Releases](https://github.com/RAHB-REALTORS-Association/CREA-API-WP/releases) Page and install it through the WordPress `Plugins -> Add New Plugin` screen directly.
    - **Option B**: Upload the `crea-api` folder from the repository to the `/wp-content/plugins` directory on your WordPress installation, then install the dependencies (see Development Setup below).
 2. **Activate Plugin**: Activate the plugin through the `Plugins -> Installed Plugins` screen in WordPress.
 
@@ -59,15 +59,14 @@ If you chose Option B and are setting up the plugin for development purposes, fr
 
 1. **Configure Plugin Settings**:
    - Navigate to `Settings -> CREA API` in the WordPress admin dashboard.
-   - **Access Token**: Enter your Bridge Data Output API access token.
-   - **Dataset Name**: Specify the dataset name to query (e.g., `itso`).
+   - **Client ID and Secret**: Enter your CREA Board Data API access credentials.
    - **Sync Interval**: Set how often (in hours) to perform incremental syncs. Default is every 24 hours.
-   - **Advanced Query Filter**: (Optional) Add additional query parameters for API requests. Do not include `OfficeStatus` in this field. Separate multiple parameters with `&`.
+   - **OfficeAOR Filter**: (Optional) Add additional query parameters for API requests.
 2. **Data Synchronization**:
    - Click the **Full Sync** button to initiate the initial data synchronization.
    - The plugin will automatically perform incremental syncs based on the configured interval.
 3. **Add Office Directory to Pages or Posts**:
-   - In the WordPress block editor, add the **Bridge Office List** block to your page or post.
+   - In the WordPress block editor, add the **CREA Office List** block to your page or post.
    - Customize the block settings in the editor sidebar to adjust the number of columns and rows.
 4. **Manage Data and Cache**:
    - You can manually clear the cache if needed from the settings page.
@@ -76,9 +75,9 @@ If you chose Option B and are setting up the plugin for development purposes, fr
 
 ### API Access
 
-- **Access Token**: Required. Obtain this from your Bridge Data Output API account.
-  - Refer to the [Bridge API Explorer and Documentation](https://bridgedataoutput.com/docs/explorer/mls-data#listOffices) for more information on obtaining an access token and available datasets.
-- **Dataset Name**: Required. The dataset you want to query (e.g., `itso`).
+- **Client ID and Secret**: Required. Obtain this from CREA by emailing support.
+  - Refer to the [Bridge API Explorer and Documentation](https://boardapi-docs.realtor.ca/#tag/Office/paths/~1Office/get) for more information on obtaining an access token and available datasets.
+- **OfficeAOR Filter**: Optional. Add additional query parameters to filter the data fetched from the API.
 
 ### Sync Settings
 
@@ -91,7 +90,7 @@ If you chose Option B and are setting up the plugin for development purposes, fr
 
 ## Technical Highlights
 
-- **Integration with Bridge Data Output API**:
+- **Integration with CREA Board Data API**:
   - Real-time data fetching ensures accurate and up-to-date information.
   - Selective data retrieval optimizes performance and reduces data transfer.
 - **Modern Development Practices**:
