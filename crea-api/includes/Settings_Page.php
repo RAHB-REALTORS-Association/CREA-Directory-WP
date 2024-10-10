@@ -44,7 +44,7 @@ class Settings_Page {
 
         ?>
         <div class="wrap">
-            <h1>Crea API Settings</h1>
+            <h1>CREA API Settings</h1>
             <form method="post" action="options.php">
                 <?php
                 settings_fields('crea_api_settings');
