@@ -76,6 +76,10 @@ The OfficeAOR Filter allows you to filter the data fetched from the API by board
 
 == Changelog ==
 
+= 0.3.5 =
+* Updated all instances of "bridge" in the plugin codebase to "crea" for consistency.
+* Updated all instances of "Crea" to "CREA" for consistency.
+
 = 0.3.4 =
 * Initial version of fork from Bridge Directory plugin.
 
