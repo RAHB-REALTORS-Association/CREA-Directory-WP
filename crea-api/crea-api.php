@@ -3,7 +3,7 @@
  * Plugin Name: CREA API
  * Plugin URI: https://github.com/RAHB-REALTORS-Association/CREA-API-WP
  * Description: Displays a searchable directory of offices using the CREA Board Data API.
- * Version: 0.1.0
+ * Version: 0.3.4
  * Author: Cornerstone Association of REALTORS
  * Author URI: https://www.cornerstone.inc
  * License: GPL-2.0
