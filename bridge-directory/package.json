@@ -1,6 +1,6 @@
 {
     "name": "crea-api",
-    "version": "0.3.4",
+    "version": "0.1.0",
     "description": "A WordPress plugin that displays a searchable directory of offices using the CREA Board Data API.",
     "main": "index.js",
     "scripts": {
