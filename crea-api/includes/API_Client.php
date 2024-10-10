@@ -176,7 +176,7 @@ class API_Client {
         // Build the query string
         $query_string = http_build_query($query_params);
 
-        $url = 'https://api.crea.ca/office'; // Adjust to the correct endpoint
+        $url = 'https://boardapi.realtor.ca/Office'; // Adjust to the correct endpoint
 
         if ($query_string) {
             $url .= '?' . $query_string;
