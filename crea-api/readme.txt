@@ -85,4 +85,4 @@ This plugin is licensed under the GPLv2 or later.
 
 == Additional Notes ==
 
-For support and additional information, please visit the [GitHub repo](https://github.com/RAHB-REALTORS-Association/CREA-API-WP).
+For support and additional information, please visit the [GitHub repo](https://github.com/RAHB-REALTORS-Association/CREA-Directory-WP).
